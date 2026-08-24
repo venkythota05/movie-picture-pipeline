@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'backend/**'
+      - 'starter/backend/**'
       - '.github/workflows/backend-cd.yaml'
   workflow_dispatch:
 
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: starter/backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -35,7 +35,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: backend
+        working-directory: starter/backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -58,7 +58,7 @@ jobs:
     needs: [lint, test]
     defaults:
       run:
-        working-directory: backend
+        working-directory: starter/backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -91,7 +91,7 @@ jobs:
     needs: [build-and-push]
     defaults:
       run:
-        working-directory: backend
+        working-directory: starter/backend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4

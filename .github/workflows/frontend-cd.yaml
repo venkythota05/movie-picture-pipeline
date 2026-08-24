@@ -4,7 +4,7 @@ on:
   push:
     branches: [main]
     paths:
-      - 'frontend/**'
+      - 'starter/frontend/**'
       - '.github/workflows/frontend-cd.yaml'
   workflow_dispatch:
 
@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: frontend
+        working-directory: starter/frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: frontend
+        working-directory: starter/frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -54,7 +54,7 @@ jobs:
     needs: [lint, test]
     defaults:
       run:
-        working-directory: frontend
+        working-directory: starter/frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -89,7 +89,7 @@ jobs:
     needs: [build-and-push]
     defaults:
       run:
-        working-directory: frontend
+        working-directory: starter/frontend
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
