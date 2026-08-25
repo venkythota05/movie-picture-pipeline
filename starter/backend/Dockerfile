@@ -18,7 +18,7 @@ RUN apt-get update && apt-get install -y \
 
 RUN mkdir -p /var/www/app && mkdir /app
 
-COPY Pipfile* /app
+COPY Pipfile* /app/
 RUN cd /app && pipenv install --system --deploy
 
 COPY . /app
