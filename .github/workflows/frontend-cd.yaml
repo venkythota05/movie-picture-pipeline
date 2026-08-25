@@ -105,6 +105,9 @@ jobs:
       - name: Update kubeconfig
         run: aws eks update-kubeconfig --name "${{ secrets.EKS_CLUSTER_NAME }}" --region "${{ secrets.AWS_REGION }}"
 
+      - name: List Kubernetes deployments
+        run: kubectl get deployments
+
       - name: Update frontend image in Kubernetes
         run: kubectl set image deployment/frontend frontend="${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_FRONTEND_REPO }}:${{ github.sha }}"
 
