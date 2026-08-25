@@ -74,12 +74,13 @@ jobs:
         run: |
           docker build \
             --build-arg REACT_APP_MOVIE_API_URL=${{ secrets.REACT_APP_MOVIE_API_URL }} \
-            -t ${{ secrets.ECR_FRONTEND_REPO }}:${{ github.sha }} .
+            -t ${{ secrets.ECR_FRONTEND_REPO }}:${{ github.sha }} \
+            .
 
       - name: Tag Docker image
         run: |
           docker tag ${{ secrets.ECR_FRONTEND_REPO }}:${{ github.sha }} \
-          ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_FRONTEND_REPO }}:${{ github.sha }}
+            ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_FRONTEND_REPO }}:${{ github.sha }}
 
       - name: Push Docker image
         run: |
