@@ -70,13 +70,19 @@ jobs:
       - name: Login to Amazon ECR
         uses: aws-actions/amazon-ecr-login@v2
 
-      - name: Debug frontend image values
+      - name: Validate frontend API URL
+        env:
+          API_URL: ${{ secrets.REACT_APP_MOVIE_API_URL }}
         run: |
-          printf 'ECR_FRONTEND_REPO=<%s>\n' "${{ secrets.ECR_FRONTEND_REPO }}"
-          printf 'REACT_APP_MOVIE_API_URL=<%s>\n' "${{ secrets.REACT_APP_MOVIE_API_URL }}"
+          if [ "$API_URL" != "http://a69fe45e4b411452081d152246e2033d-41587109.us-east-1.elb.amazonaws.com" ]; then
+            echo "ERROR: REACT_APP_MOVIE_API_URL is not the expected backend LoadBalancer URL."
+            exit 1
+          fi
+          echo "Frontend API URL validation passed."
 
       - name: Build Docker image
-        run: docker build --build-arg REACT_APP_MOVIE_API_URL="${{ secrets.REACT_APP_MOVIE_API_URL }}" -t "${{ secrets.ECR_FRONTEND_REPO }}:${{ github.sha }}" .
+        run: |
+          docker build             --build-arg REACT_APP_MOVIE_API_URL="${{ secrets.REACT_APP_MOVIE_API_URL }}"             -t "${{ secrets.ECR_FRONTEND_REPO }}:${{ github.sha }}" .
 
       - name: Tag Docker image
         run: docker tag "${{ secrets.ECR_FRONTEND_REPO }}:${{ github.sha }}" "${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/${{ secrets.ECR_FRONTEND_REPO }}:${{ github.sha }}"
